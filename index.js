@@ -3,13 +3,10 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
 
-// Middleware para processar JSON
 app.use(bodyParser.json());
 
-// Banco de dados simulado em memória
 let usuarios = [];
 
-// Rota para cadastrar novo usuário
 app.post('/usuarios', (req, res) => {
   const { nome, email } = req.body;
 
@@ -23,12 +20,10 @@ app.post('/usuarios', (req, res) => {
   res.status(201).json(novoUsuario);
 });
 
-// Rota para listar todos os usuários
 app.get('/usuarios', (req, res) => {
   res.json(usuarios);
 });
 
-// Rota para atualizar um usuário pelo ID
 app.put('/usuarios/:id', (req, res) => {
   const id = parseInt(req.params.id);
   const { nome, email } = req.body;
@@ -44,7 +39,6 @@ app.put('/usuarios/:id', (req, res) => {
   res.json(usuario);
 });
 
-// Rota para deletar um usuário pelo ID
 app.delete('/usuarios/:id', (req, res) => {
   const id = parseInt(req.params.id);
   const index = usuarios.findIndex(u => u.id === id);
