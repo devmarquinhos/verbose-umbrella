@@ -28,6 +28,39 @@ app.get('/usuarios', (req, res) => {
   res.json(usuarios);
 });
 
+// Rota para atualizar um usuário pelo ID
+app.put('/usuarios/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const { nome, email } = req.body;
+
+  const usuario = usuarios.find(u => u.id === id);
+  if (!usuario) {
+    return res.status(404).json({ mensagem: 'Usuário não encontrado.' });
+  }
+
+  if (nome) usuario.nome = nome;
+  if (email) usuario.email = email;
+
+  res.json(usuario);
+});
+
+// Rota para deletar um usuário pelo ID
+app.delete('/usuarios/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const index = usuarios.findIndex(u => u.id === id);
+
+  if (index === -1) {
+    return res.status(404).json({ mensagem: 'Usuário não encontrado.' });
+  }
+
+  const usuarioRemovido = usuarios.splice(index, 1)[0];
+  res.json({ mensagem: 'Usuário removido com sucesso.', usuario: usuarioRemovido });
+});
+
+app.listen(port, () => {
+  console.log(`Servidor rodando em http://localhost:${port}`);
+});
+
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
 });
